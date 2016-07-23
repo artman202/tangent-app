@@ -7,8 +7,45 @@
 // By default each design mode includes these shared imports.
 // App Shared Sass variables belong in app.variables.scss.
 
-@import "../pages/about/about";
-
-@import "../pages/contact/contact";
-
+@import "../pages/login/login.scss";
 @import "../pages/home/home";
+
+.red {
+    color: red;
+}
+.blue {
+    color: #54dbc2;
+}
+.white {
+    color: white;
+}
+
+.bg-blue {
+    background-color: #54dbc2;
+}
+
+.text-center {
+    width: 100%;
+    text-align: center;
+}
+
+ion-navbar {
+    -webkit-box-shadow: 0px -1px 6px 4px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px -1px 6px 4px rgba(0,0,0,0.3);
+    box-shadow: 0px -1px 6px 4px rgba(0,0,0,0.3);
+}
+ion-navbar .toolbar-background {
+    background-color: #fff;
+    border: none;
+}
+.logo .toolbar-title {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+.logo {
+    height: 100%;
+}
