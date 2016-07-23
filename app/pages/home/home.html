@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-buttons left>
       <button menuToggle>
-        <ion-icon name="menu"></ion-icon>
+        <ion-icon class="gray" name="menu"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title class="logo">
@@ -17,5 +17,23 @@
 </ion-header>
 
 <ion-content padding class="home bg-blue">
-  
+  <ion-list>
+    
+    <ion-item-sliding *ngFor="let project of projectsArr" [navPush]="projectDetailPage" [navParams]="project">
+      <ion-item>
+        <h2>{{project.title}}</h2>
+      </ion-item>
+      <ion-item-options>
+        <button primary>
+          <ion-icon name="text"></ion-icon>
+          Text
+        </button>
+        <button secondary>
+          <ion-icon name="call"></ion-icon>
+          Call
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+  </ion-list>
 </ion-content>

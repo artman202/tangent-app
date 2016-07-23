@@ -1,2 +1,15 @@
 .home {
+
+    ion-label {
+        margin: 20px auto;
+    }
+
+    ion-item-sliding {
+        border-bottom: 1px solid #54dbc2;
+    }
+
+    .item-inner {
+        border: none !important;
+    }
+
 }

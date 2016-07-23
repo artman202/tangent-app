@@ -9,19 +9,38 @@
 
 @import "../pages/login/login.scss";
 @import "../pages/home/home";
+@import "../pages/project-detail/project-detail.scss";
+
+p {line-height: 1.6em}
 
 .red {
-    color: red;
+    color: #df4f66 !important;
 }
 .blue {
-    color: #54dbc2;
+    color: #54dbc2 !important;
 }
 .white {
-    color: white;
+    color: white !important;
+}
+.gray {
+    color: #424a52 !important;
 }
 
 .bg-blue {
-    background-color: #54dbc2;
+    background-color: #54dbc2 !important;
+}
+.bg-red {
+    background-color: #df4f66 !important;
+}
+.bg-white {
+    background-color: white !important;
+}
+.bg-gray {
+    background-color: #424a52 !important;
+}
+
+.back-button {
+    color: #df4f66 !important;
 }
 
 .text-center {

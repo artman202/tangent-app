@@ -52,12 +52,16 @@ export class LoginPage {
         response  => {
           this.navCtrl.setRoot(HomePage);
           window.sessionStorage.setItem("tokenid", JSON.stringify(response));
-          this.loading.dismiss();
+          setTimeout(() => {
+            this.loading.dismiss();
+          }, 0);
           this.showToast('Login successful')
         },
         err => {
           this.logError(err);
-          this.loading.dismiss();
+          setTimeout(() => {
+            this.loading.dismiss();
+          }, 0);
         },
         () => console.log('User Object sent successfully')
       );

@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
-import {NavController, Loading} from 'ionic-angular';
+import {NavController, Loading, MenuController} from 'ionic-angular';
+
+// Page
+import { ProjectDetailPage } from '../project-detail/project-detail';
 
 // Services
 import { ProjectsService } from '../../providers/projects-service/projects-service';
@@ -11,11 +14,19 @@ import { ProjectsService } from '../../providers/projects-service/projects-servi
 export class HomePage {
 
   private loading: any;
+  private projectsArr: any;
+  private projectDetailPage: any;
 
-  constructor(private navCtrl: NavController, private projectsService: ProjectsService) {
+  constructor(private navCtrl: NavController, private projectsService: ProjectsService, private menu: MenuController) {
+
+    // let tokenId = JSON.parse(window.sessionStorage.getItem('tokenid'));
+    // this.loadProjects(tokenId.token);
+
+    this.menu.swipeEnable(false);
+    this.projectDetailPage = ProjectDetailPage;
 
     let tokenId = JSON.parse(window.sessionStorage.getItem('tokenid'));
-    this.loadProjects(tokenId.token);
+    this.loadProjects('71456dbd15de0c0b6d2b4b44e5a92ad94c6def97');
 
   }
 
@@ -24,13 +35,21 @@ export class HomePage {
       .subscribe(
         response  => {
           this.presentLoadingDefault();
+          // remove
           console.log(response);
+          response.sort(function(a,b) {return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);} );
+          this.projectsArr = response;
+          setTimeout(() => {
+            this.loading.dismiss();
+          }, 0);
         },
         err => {
           this.logError(err);
-          this.loading.dismiss();
+          setTimeout(() => {
+            this.loading.dismiss();
+          }, 0);
         },
-        () => console.log('User Object sent successfully')
+        () => console.log('Projects request sent successfully')
       );
   }
 

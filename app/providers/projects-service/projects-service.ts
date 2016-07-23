@@ -20,8 +20,6 @@ export class ProjectsService {
 
   loadProjects(tokenid: string) {
 
-    console.log(tokenid);
-
     // let body = JSON.stringify({ name });
     let headers = new Headers({ 
       'Content-Type': 'application/json',

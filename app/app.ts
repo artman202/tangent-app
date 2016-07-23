@@ -4,6 +4,7 @@ import {StatusBar} from 'ionic-native';
 import {LoginPage} from './pages/login/login';
 
 import {HomePage} from './pages/home/home';
+import {ProjectDetailPage} from './pages/project-detail/project-detail';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class MyApp {
 
   constructor(private platform: Platform, private menu:MenuController) {
     // this.rootPage = LoginPage;
-    this.rootPage = HomePage;
+    this.rootPage = ProjectDetailPage;
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
