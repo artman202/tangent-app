@@ -6,7 +6,16 @@
 -->
 
 <ion-content class="login">
+
+  
+
   <ion-list inset>
+
+    <ion-row>
+      <div class="text-center login-logo">
+        <img src="img/logo.png" width="150px;" />
+      </div>
+    </ion-row>
 
     <ion-item>
       <ion-input type="text" [(ngModel)]="username" placeholder="Username"></ion-input>
@@ -22,7 +31,7 @@
       <ion-col width-20>
       </ion-col>
       <ion-col width-60>
-        <button block outline (click)="login()">Login</button>
+        <button class="blue border-blue" block outline (click)="login()">Login</button>
       </ion-col>
       <ion-col width-20>
       </ion-col>

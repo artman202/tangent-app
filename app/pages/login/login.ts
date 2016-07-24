@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Loading } from 'ionic-angular';
+import { NavController, Loading, MenuController } from 'ionic-angular';
 
 // Native
 import {Toast} from 'ionic-native';
@@ -28,10 +28,8 @@ export class LoginPage {
   private loginErr: boolean;
   private loading: any;
 
-  constructor(private navCtrl: NavController, private loginService: LoginService) {
-
-    console.log(window.sessionStorage.getItem('tokenid'));
-
+  constructor(private navCtrl: NavController, private loginService: LoginService, private menu: MenuController) {
+    this.menu.swipeEnable(false);
   }
 
   login() {
@@ -50,11 +48,13 @@ export class LoginPage {
     this.loginService.loginUser(userObj)
       .subscribe(
         response  => {
-          this.navCtrl.setRoot(HomePage);
           window.sessionStorage.setItem("tokenid", JSON.stringify(response));
           setTimeout(() => {
             this.loading.dismiss();
           }, 0);
+          setTimeout(() => {
+            this.navCtrl.setRoot(HomePage);
+          }, 500);
           this.showToast('Login successful')
         },
         err => {
@@ -89,10 +89,6 @@ export class LoginPage {
     });
 
     this.navCtrl.present(this.loading);
-
-    setTimeout(() => {
-      this.loading.dismiss();
-    }, 5000);
   }
 
   showToast(content) {

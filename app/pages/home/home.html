@@ -16,24 +16,21 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding class="home bg-blue">
-  <ion-list>
-    
-    <ion-item-sliding *ngFor="let project of projectsArr" [navPush]="projectDetailPage" [navParams]="project">
-      <ion-item>
-        <h2>{{project.title}}</h2>
-      </ion-item>
-      <ion-item-options>
-        <button primary>
-          <ion-icon name="text"></ion-icon>
-          Text
-        </button>
-        <button secondary>
-          <ion-icon name="call"></ion-icon>
-          Call
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
+<ion-content class="home bg-blue">
 
-  </ion-list>
+  <ion-card *ngFor="let project of projectsArr" [navPush]="projectDetailPage" [navParams]="project">
+    <ion-card-header>
+      <b>{{project.title}}</b>
+    </ion-card-header>
+    <ion-card-content>
+      {{project.description | truncate : [60]}}
+    </ion-card-content>
+  </ion-card>
+
+  <button class="bg-red fab-box-shadow" (click)="showModal()" fab fab-bottom fab-center fab-fixed>
+    <ion-icon class="white" name="md-add" is-active="false"></ion-icon>
+  </button>
+
+  <div class="bottom-fad-spacer"></div>
+
 </ion-content>

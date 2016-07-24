@@ -10,6 +10,8 @@
 @import "../pages/login/login.scss";
 @import "../pages/home/home";
 @import "../pages/project-detail/project-detail.scss";
+@import "../modals/create-project-modal/create-project-modal.scss";
+@import "../modals/update-project-modal/update-project-modal.scss";
 
 p {line-height: 1.6em}
 
@@ -39,13 +41,28 @@ p {line-height: 1.6em}
     background-color: #424a52 !important;
 }
 
+.border-blue {
+    border-color: #54dbc2 !important;
+}
+
 .back-button {
     color: #df4f66 !important;
 }
-
 .text-center {
     width: 100%;
     text-align: center;
+}
+.fab-box-shadow {
+    -webkit-box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.6);
+    -moz-box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.6);
+    box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.6);
+}
+.bottom-fad-spacer {
+    height: 6em;
+}
+
+.login-logo {
+    padding: 40px 0;
 }
 
 ion-navbar {
@@ -67,4 +84,24 @@ ion-navbar .toolbar-background {
 }
 .logo {
     height: 100%;
+}
+.padding-left {
+    padding-left: 0.5em;
+}
+
+.md .radio-inner {
+    background-color: #54dbc2 !important;
+}
+.radio-checked .radio-inner {
+    border-color: #54dbc2;
+}
+.radio-inner, .radio-checked {
+    border-color: #54dbc2;
+}
+.item-radio-checked ion-label {
+    color: #54dbc2;
+}
+
+.md input, .md textarea {
+    margin-left: 0;
 }

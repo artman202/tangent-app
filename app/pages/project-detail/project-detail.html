@@ -17,7 +17,6 @@
 
   <div class="description-container bg-white">
 
-    <br>
     <h4 class="gray">
       <b>{{project.title}}</b>
     </h4>
@@ -49,16 +48,11 @@
         No
       </span><br>
     </p>
-    <!--<br>
-    <b>Task Set:</b>-->
-    <!--<p *ngFor="let task of projectTaskSet; let i = $index" >
-       {{task.due_date | date}}
-    </p>-->
 
-    <button class="bg-white fab-box-shadow" fab fab-bottom fab-center>
+    <button class="bg-white fab-box-shadow" fab fab-bottom fab-left fab-fixed (click)="deleteProject(project.pk)">
       <ion-icon class="red" name="trash" is-active="false"></ion-icon>
     </button>
-    <button class="bg-red fab-box-shadow" fab fab-bottom fab-right>
+    <button class="bg-red fab-box-shadow" fab fab-bottom fab-center fab-fixed (click)="showModal()">
       <ion-icon name="md-create" is-active="false"></ion-icon>
     </button>
 

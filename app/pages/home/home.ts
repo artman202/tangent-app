@@ -1,40 +1,54 @@
 import {Component} from '@angular/core';
-import {NavController, Loading, MenuController} from 'ionic-angular';
+import {Modal, NavController, Loading, NavParams} from 'ionic-angular';
 
 // Page
 import { ProjectDetailPage } from '../project-detail/project-detail';
+import { CreateProjectModal } from '../../modals/create-project-modal/create-project-modal';
+
+// Pipes
+import { TruncatePipe } from '../../pipes/truncate-pipe/truncate-pipe';
 
 // Services
 import { ProjectsService } from '../../providers/projects-service/projects-service';
 
 @Component({
   templateUrl: 'build/pages/home/home.html',
-  providers: [ProjectsService]
+  providers: [ProjectsService],
+  pipes: [TruncatePipe]
 })
 export class HomePage {
 
   private loading: any;
   private projectsArr: any;
   private projectDetailPage: any;
+  private tokenId: any;
 
-  constructor(private navCtrl: NavController, private projectsService: ProjectsService, private menu: MenuController) {
+  ionViewDidEnter() {
+    
+    let reload = window.localStorage.getItem('reload');
+    if(reload == 'true') {
+      console.log('reload content');
+      this.loadProjects(this.tokenId.token);
+    }
+    window.localStorage.setItem('reload', 'false');
+  }
 
-    // let tokenId = JSON.parse(window.sessionStorage.getItem('tokenid'));
-    // this.loadProjects(tokenId.token);
-
-    this.menu.swipeEnable(false);
-    this.projectDetailPage = ProjectDetailPage;
+  constructor(private navCtrl: NavController, private projectsService: ProjectsService, public navParams: NavParams) {
 
     let tokenId = JSON.parse(window.sessionStorage.getItem('tokenid'));
-    this.loadProjects('71456dbd15de0c0b6d2b4b44e5a92ad94c6def97');
+    this.loadProjects(tokenId.token);
+
+    this.projectDetailPage = ProjectDetailPage;
 
   }
 
   loadProjects(tokenid) {
+
+    this.presentLoadingDefault();
+
     this.projectsService.loadProjects(tokenid)
       .subscribe(
         response  => {
-          this.presentLoadingDefault();
           // remove
           console.log(response);
           response.sort(function(a,b) {return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);} );
@@ -54,9 +68,7 @@ export class HomePage {
   }
 
   logError(err) {
-
     console.log(err);
-
   }
 
   presentLoadingDefault() {
@@ -65,10 +77,18 @@ export class HomePage {
     });
 
     this.navCtrl.present(this.loading);
+  }
 
-    setTimeout(() => {
-      this.loading.dismiss();
-    }, 5000);
+  showModal() {
+    let modal = Modal.create(CreateProjectModal);
+    this.navCtrl.present(modal);
+
+    // Reload content if projects was added
+    modal.onDismiss(data => {
+      if(data == true) {
+        this.loadProjects(this.tokenId.token);
+      }
+    });
   }
 
 }

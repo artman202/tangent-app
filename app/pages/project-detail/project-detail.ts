@@ -1,5 +1,14 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Alert, Loading, Modal } from 'ionic-angular';
+
+// Pages
+import { UpdateProjectModal } from '../../modals/update-project-modal/update-project-modal';
+
+// Native
+import {Toast} from 'ionic-native';
+
+// Services
+import { ProjectsService } from '../../providers/projects-service/projects-service';
 
 /*
   Generated class for the ProjectDetailPage page.
@@ -9,20 +18,20 @@ import { NavController, NavParams } from 'ionic-angular';
 */
 @Component({
   templateUrl: 'build/pages/project-detail/project-detail.html',
+  providers: [ProjectsService]
 })
 export class ProjectDetailPage {
 
   private project: any;
   private projectTaskSet: any;
   private endDate: boolean;
+  private tokenId: any;
+  private loading: any;
+  private alert: any;
 
-  constructor(private nav: NavController, public navParams: NavParams) {
+  constructor(private navCtrl: NavController, public navParams: NavParams, public projectsService: ProjectsService) {
 
-    let project = JSON.parse('{"pk":3,"title":"Stark Industries CRM","description":"Helping iron man keep track of his customers","start_date":"2015-02-18","end_date":null,"is_billable":true,"is_active":true,"task_set":[{"id":4,"title":"Meetings","due_date":null,"estimated_hours":"45.00","project":3,"project_data":{"pk":3,"title":"Stark Industries CRM","description":"Helping iron man keep track of his customers","start_date":"2015-02-18","end_date":null,"is_billable":true,"is_active":true}},{"id":2,"title":"Project Management","due_date":"2015-04-01","estimated_hours":"150.00","project":3,"project_data":{"pk":3,"title":"Stark Industries CRM","description":"Helping iron man keep track of his customers","start_date":"2015-02-18","end_date":null,"is_billable":true,"is_active":true}},{"id":1,"title":"Development","due_date":"2015-04-01","estimated_hours":"300.00","project":3,"project_data":{"pk":3,"title":"Stark Industries CRM","description":"Helping iron man keep track of his customers","start_date":"2015-02-18","end_date":null,"is_billable":true,"is_active":true}}],"resource_set":[]}');
-
-    console.log(project);
-
-    navParams.data = project;
+    this.tokenId = JSON.parse(window.sessionStorage.getItem('tokenid'));
 
     if(navParams.data.end_date == null || navParams.data.end_date == undefined || navParams.data.end_date == '') {
       this.endDate = false;
@@ -30,19 +39,99 @@ export class ProjectDetailPage {
       this.endDate = true;
     }
 
-    // if(navParams.data.end_date == null || navParams.data.end_date == undefined || navParams.data.end_date == '') {
-    //   this.endDate = false;
-    // } else {
-    //   this.endDate = true;
-    // }
+    this.project = navParams.data;
+    this.projectTaskSet = this.project.task_set;
 
-    // console.log(JSON.parse(navParams.data));
+  }
 
-    // this.project = navParams.data;
-    // this.projectTaskSet = this.project.task_set;
+  deleteProject(projectId) {
 
-    this.project = project;
+    let buttonsArr = [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      },
+      {
+        text: 'Yes',
+        handler: () => {
 
+          let navTransition = this.alert.dismiss();
+          // Reload content upon successful deletion
+
+          // Show loading indicator
+          this.presentLoadingDefault();
+          
+          this.projectsService.deleteProject(projectId, this.tokenId.token)
+            .subscribe(
+              response => {
+
+              },
+              err => {
+
+                window.localStorage.setItem('reload', 'true');
+                setTimeout(() => {
+                  this.loadingDismiss();
+                }, 0);
+                
+                // start some async method
+                setTimeout(() => {
+                  navTransition.then(() => {
+                    this.navCtrl.pop();
+                  });
+                  this.showToast('Project deleted')
+                }, 500);
+
+              },
+              () => console.log('Project delete request sent successfully')
+            )
+
+        }
+      }
+    ]
+
+    this.presentAlert('Alert', 'Are you sure you want to delete this project?', buttonsArr)
+
+  }
+
+  presentAlert(alertTitle, alertMessage, buttonsArr) {
+    this.alert = Alert.create({
+      title: alertTitle,
+      message: alertMessage,
+      buttons: buttonsArr
+    });
+    this.navCtrl.present(this.alert);
+  }
+
+  presentLoadingDefault() {
+    this.loading = Loading.create({
+      content: 'Please wait...'
+    });
+
+    this.navCtrl.present(this.loading);
+  }
+
+  loadingDismiss() {
+    this.loading.dismiss();
+  }
+
+  logError(err) {
+    console.log(err);
+  }
+
+  showToast(content) {
+    Toast.show(content, "3000", "bottom").subscribe(
+      toast => {
+        console.log(toast);
+      }
+    );
+  }
+
+  showModal() {
+    let modal = Modal.create(UpdateProjectModal, {project: this.project});
+    this.navCtrl.present(modal);
   }
 
 }
