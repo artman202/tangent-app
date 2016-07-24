@@ -26,17 +26,20 @@ export class HomePage {
   ionViewDidEnter() {
     
     let reload = window.localStorage.getItem('reload');
+
+    console.log(reload);
     if(reload == 'true') {
       console.log('reload content');
       this.loadProjects(this.tokenId.token);
     }
     window.localStorage.setItem('reload', 'false');
+
   }
 
   constructor(private navCtrl: NavController, private projectsService: ProjectsService, public navParams: NavParams) {
 
-    let tokenId = JSON.parse(window.sessionStorage.getItem('tokenid'));
-    this.loadProjects(tokenId.token);
+    this.tokenId = JSON.parse(window.sessionStorage.getItem('tokenid'));
+    this.loadProjects(this.tokenId.token);
 
     this.projectDetailPage = ProjectDetailPage;
 
