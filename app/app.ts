@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Platform, ionicBootstrap, MenuController} from 'ionic-angular';
+import {Platform, ionicBootstrap, MenuController, App} from 'ionic-angular';
 import {StatusBar, Keyboard} from 'ionic-native';
 import {LoginPage} from './pages/login/login';
 
@@ -29,7 +29,7 @@ export class MyApp {
 
   private rootPage: any;
 
-  constructor(private platform: Platform, private menu:MenuController) {
+  constructor(private platform: Platform, private menu:MenuController, private app: App) {
     
     this.rootPage = LoginPage;
 
@@ -42,8 +42,12 @@ export class MyApp {
   }
 
   logoutUserOut() {
+
+    this.menu.close();
     window.sessionStorage.setItem("tokenid", '');
-    this.rootPage = LoginPage;
+    let nav = this.app.getRootNav()
+    nav.setRoot(LoginPage);
+    
   }
 }
 
